@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "POST-CONNECT script..."
+
+# Set IPv6 forwarding (must be present).
+echo "  Enabling IP forwarding..."
+echo 1 > /proc/sys/net/ipv6/conf/all/forwarding
+
+# Add IP address 2004:beef::1 to eno1
+echo "  Adding IPv6 address 2004:beef::1 to eno1..."
+ifconfig eno1 add 2004:beef::1/128
+ifconfig eno1 add 2004:beef::/64
+
+# Add IP address 2001:db8:: to bt0
+echo "  Adding IPv6 address 2001:db8:: to bt0..."
+ifconfig bt0 add 2001:db8::2/128
+ifconfig bt0 add 2001:db8::/64
+
+# Starting RADV daemon
+echo "  Starting RADV daemon..."
+service radvd start
+
+echo "done"

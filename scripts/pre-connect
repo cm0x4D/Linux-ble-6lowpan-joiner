@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "PRE-CONNECT script..."
+
+echo "  Stopping RADV daemon..."
+service radvd stop
+
+echo "done."

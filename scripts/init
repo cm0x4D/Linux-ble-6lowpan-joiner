@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "INIT script..."
+
+# Reset hci
+echo "  Resetting Bluetooth..."
+hciconfig hci0 reset
+
+# Enable 6lowpan
+modprobe bluetooth_6lowpan
+sleep 1
+echo 1 > /sys/kernel/debug/bluetooth/6lowpan_enable
+
+# Enable IPv6 forwarding
+echo "  Enable IPv6 forwarding..."
+echo 1 > /proc/sys/net/ipv6/conf/all/forwarding 
+
+# Restart RADV service.
+echo "  Restarting RADV..."
+service radvd restart
+
+echo "done."
